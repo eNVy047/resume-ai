@@ -1,16 +1,37 @@
-# Next.js 15 AI Resume Builder
+# 🧠 AI Resume Builder - Next.js 15 Full-Stack SaaS
 
-Build and deploy a professional **full-stack SaaS** (software-as-a-service) application with **Stripe Checkout** and the **ChatGPT API**. 
+Welcome to the **AI Resume Builder**, a professional SaaS application built using **Next.js 15**, **Stripe**, **PostgreSQL**, and **OpenAI's ChatGPT API**. Effortlessly create and manage your resumes with drag-and-drop simplicity, AI autofill, and professional templates.
 
-Features:
-- Multi-step form using React Hook Form
-- Dynamic form arrays with useFieldArray
-- Drag-and-drop with dnd-kit
-- AI auto-fill
-- Different subscription tiers
-- Mobile responsive design with Tailwind CSS and Shadcn UI components
-- Print or save as PDF using react-to-print
-- URL state management
-- Postgres DB and file uploads to Vercel Blob
-- Auto-save hook
-- & more
+---
+
+## 🚀 Features
+
+- ✍️ AI-powered resume autofill using ChatGPT API
+- 📝 Multi-step form with dynamic fields via `React Hook Form` and `useFieldArray`
+- 🧲 Drag-and-drop resume builder with `dnd-kit`
+- 💳 Tiered subscription plans via Stripe Checkout
+- 📱 Fully responsive design using Tailwind CSS and Shadcn UI
+- 📤 File uploads using Vercel Blob Storage
+- 💾 Auto-save functionality to prevent data loss
+- 🌐 Persistent state through URL parameters
+- 🖨️ Save or print as PDF using `react-to-print`
+- 🔐 Auth and subscription-protected routes
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: Next.js 15, TypeScript, Tailwind CSS, Shadcn UI
+- **Backend**: PostgreSQL, Prisma, Stripe Webhooks, Vercel Blob
+- **AI**: ChatGPT (OpenAI API)
+- **Tools**: React Hook Form, dnd-kit, react-to-print
+
+---
+
+## 📦 Installation & Setup
+
+### 🔹 Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/eNVy047/resume-ai.git
+cd resume-ai
