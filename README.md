@@ -2,6 +2,15 @@
 
 Welcome to the **AI Resume Builder**, a professional SaaS application built using **Next.js 15**, **Stripe**, **PostgreSQL**, and **OpenAI's ChatGPT API**. Effortlessly create and manage your resumes with drag-and-drop simplicity, AI autofill, and professional templates.
 
+
+
+<p align="center">
+  <a href="https://www.buymeacoffee.com/narayanverma" target="_blank">
+    <img src="https://img.shields.io/badge/-Buy%20me%20a%20coffee-FFDD00?logo=buy-me-a-coffee&logoColor=black&style=for-the-badge" alt="Buy Me A Coffee" />
+  </a>
+</p>
+
+
 ---
 
 ## 🚀 Features
