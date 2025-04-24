@@ -26,8 +26,24 @@ export const personalInfoSchema = z.object({
   jobTitle: optionalString,
   city: optionalString,
   country: optionalString,
-  phone: optionalString,
-  email: optionalString,
+  phone: z
+    .string()
+    .trim()
+    .optional()
+    .or(z.literal(""))
+    .refine(
+      (val) => !val || /^\+?[1-9]\d{1,14}$/.test(val),
+      "Please enter a valid phone number (e.g., +1234567890)"
+    ),
+  email: z
+    .string()
+    .trim()
+    .optional()
+    .or(z.literal(""))
+    .refine(
+      (val) => !val || /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(val),
+      "Please enter a valid Gmail address"
+    ),
 });
 
 export type PersonalInfoValues = z.infer<typeof personalInfoSchema>;

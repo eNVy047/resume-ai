@@ -11,13 +11,16 @@ import { Input } from "@/components/ui/input";
 import { EditorFormProps } from "@/lib/types";
 import { personalInfoSchema, PersonalInfoValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { cn } from "@/lib/utils";
+import SmartFillButton from "@/components/SmartFillButton";
 
 export default function PersonalInfoForm({
   resumeData,
   setResumeData,
 }: EditorFormProps) {
+  const [isValid, setIsValid] = useState(true);
   const form = useForm<PersonalInfoValues>({
     resolver: zodResolver(personalInfoSchema),
     defaultValues: {
@@ -34,6 +37,7 @@ export default function PersonalInfoForm({
   useEffect(() => {
     const { unsubscribe } = form.watch(async (values) => {
       const isValid = await form.trigger();
+      setIsValid(isValid);
       if (!isValid) return;
       setResumeData({ ...resumeData, ...values });
     });
@@ -41,6 +45,21 @@ export default function PersonalInfoForm({
   }, [form, resumeData, setResumeData]);
 
   const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSmartFill = (field: string, value: string) => {
+    form.setValue(field as keyof PersonalInfoValues, value);
+  };
+
+  const getContext = () => {
+    const values = form.getValues();
+    return {
+      firstName: values.firstName || "",
+      lastName: values.lastName || "",
+      jobTitle: values.jobTitle || "",
+      city: values.city || "",
+      country: values.country || "",
+    };
+  };
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
@@ -117,12 +136,24 @@ export default function PersonalInfoForm({
           <FormField
             control={form.control}
             name="jobTitle"
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <FormItem>
                 <FormLabel>Job title</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
+                <div className="flex items-center gap-2">
+                  <FormControl>
+                    <Input
+                      {...field}
+                      className={cn(
+                        error && "border-red-500 focus-visible:ring-red-500"
+                      )}
+                    />
+                  </FormControl>
+                  <SmartFillButton
+                    field="jobTitle"
+                    context={getContext()}
+                    onFill={(value) => handleSmartFill("jobTitle", value)}
+                  />
+                </div>
                 <FormMessage />
               </FormItem>
             )}
@@ -158,11 +189,18 @@ export default function PersonalInfoForm({
           <FormField
             control={form.control}
             name="phone"
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <FormItem>
                 <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input {...field} type="tel" />
+                  <Input
+                    {...field}
+                    type="tel"
+                    className={cn(
+                      error && "border-red-500 focus-visible:ring-red-500"
+                    )}
+                    placeholder="+1234567890"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -171,16 +209,28 @@ export default function PersonalInfoForm({
           <FormField
             control={form.control}
             name="email"
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} type="email" />
+                  <Input
+                    {...field}
+                    type="email"
+                    className={cn(
+                      error && "border-red-500 focus-visible:ring-red-500"
+                    )}
+                    placeholder="example@gmail.com"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          {!isValid && (
+            <div className="text-sm text-red-500">
+              Please fix the validation errors before proceeding.
+            </div>
+          )}
         </form>
       </Form>
     </div>

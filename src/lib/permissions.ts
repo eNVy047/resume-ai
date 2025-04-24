@@ -4,21 +4,16 @@ export function canCreateResume(
   subscriptionLevel: SubscriptionLevel,
   currentResumeCount: number,
 ) {
-  const maxResumeMap: Record<SubscriptionLevel, number> = {
-    free: 1,
-    pro: 3,
-    pro_plus: Infinity,
-  };
-
-  const maxResumes = maxResumeMap[subscriptionLevel];
-
-  return currentResumeCount < maxResumes;
+  // Allow unlimited resumes for all users
+  return true;
 }
 
 export function canUseAITools(subscriptionLevel: SubscriptionLevel) {
-  return subscriptionLevel !== "free";
+  // Allow AI tools for all users
+  return true;
 }
 
 export function canUseCustomizations(subscriptionLevel: SubscriptionLevel) {
-  return subscriptionLevel === "pro_plus";
+  // Allow customizations for all users
+  return true;
 }

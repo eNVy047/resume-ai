@@ -1,12 +1,9 @@
 import LoadingButton from "@/components/LoadingButton";
 import { useToast } from "@/hooks/use-toast";
-import usePremiumModal from "@/hooks/usePremiumModal";
-import { canUseAITools } from "@/lib/permissions";
 import { ResumeValues } from "@/lib/validation";
 import { WandSparklesIcon } from "lucide-react";
 import { useState } from "react";
-import { useSubscriptionLevel } from "../../SubscriptionLevelProvider";
-import { generateSummary } from "./actions";
+import { generateResumeSummary } from "@/lib/ai-service";
 
 interface GenerateSummaryButtonProps {
   resumeData: ResumeValues;
@@ -17,29 +14,30 @@ export default function GenerateSummaryButton({
   resumeData,
   onSummaryGenerated,
 }: GenerateSummaryButtonProps) {
-  const subscriptionLevel = useSubscriptionLevel();
-
-  const premiumModal = usePremiumModal();
-
   const { toast } = useToast();
-
   const [loading, setLoading] = useState(false);
 
   async function handleClick() {
-    if (!canUseAITools(subscriptionLevel)) {
-      premiumModal.setOpen(true);
-      return;
-    }
-
     try {
       setLoading(true);
-      const aiResponse = await generateSummary(resumeData);
-      onSummaryGenerated(aiResponse);
+      const { jobTitle, workExperiences, skills } = resumeData;
+      
+      // Extract experience from work experiences
+      const experience = workExperiences?.[0]?.description || "";
+      
+      // Generate summary using Google AI
+      const summary = await generateResumeSummary(
+        jobTitle || "",
+        experience,
+        skills || []
+      );
+      
+      onSummaryGenerated(summary);
     } catch (error) {
       console.error(error);
       toast({
         variant: "destructive",
-        description: "Something went wrong. Please try again.",
+        description: "Failed to generate summary. Please try again later.",
       });
     } finally {
       setLoading(false);

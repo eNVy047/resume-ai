@@ -12,6 +12,8 @@ import ResumePreviewSection from "./ResumePreviewSection";
 import { steps } from "./steps";
 import useAutoSaveResume from "./useAutoSaveResume";
 
+import { calculateATSScore } from "@/lib/ats-score";
+import CircularProgress from "@/components/CircularProgress";
 interface ResumeEditorProps {
   resumeToEdit: ResumeServerData | null;
 }
@@ -30,7 +32,8 @@ export default function ResumeEditor({ resumeToEdit }: ResumeEditorProps) {
   useUnloadWarning(hasUnsavedChanges);
 
   const currentStep = searchParams.get("step") || steps[0].key;
-
+  const atsScore = calculateATSScore(resumeData);
+  
   function setStep(key: string) {
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("step", key);
@@ -44,12 +47,21 @@ export default function ResumeEditor({ resumeToEdit }: ResumeEditorProps) {
   return (
     <div className="flex grow flex-col">
       <header className="space-y-1.5 border-b px-3 py-5 text-center">
+        <div className="flex items-center justify-between flex-row">
+        <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold">Design your resume</h1>
         <p className="text-sm text-muted-foreground">
           Follow the steps below to create your resume. Your progress will be
           saved automatically.
         </p>
+       </div>
+       <div className="flex items-center gap-2">
+        <span className="text-xs text-muted-foreground">ATS Score</span>
+        <CircularProgress value={atsScore.total} feedback={atsScore.feedback} />
+      </div>
+        </div>
       </header>
+      
       <main className="relative grow">
         <div className="absolute bottom-0 top-0 flex w-full">
           <div

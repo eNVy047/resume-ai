@@ -6,21 +6,34 @@ import { formatDate } from "date-fns";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
+import { TemplateStyle } from "./resume-templates/types";
+import ModernTemplate from "./resume-templates/ModernTemplate";
+import ClassicTemplate from "./resume-templates/ClassicTemplate";
+import CreativeTemplate from "./resume-templates/CreativeTemplate";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
   contentRef?: React.Ref<HTMLDivElement>;
   className?: string;
+  template?: TemplateStyle;
 }
 
 export default function ResumePreview({
   resumeData,
   contentRef,
   className,
+  template = "modern",
 }: ResumePreviewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-
   const { width } = useDimensions(containerRef);
+
+  const templates = {
+    modern: ModernTemplate,
+    classic: ClassicTemplate,
+    creative: CreativeTemplate,
+  };
+
+  const SelectedTemplate = templates[template];
 
   return (
     <div
@@ -31,18 +44,14 @@ export default function ResumePreview({
       ref={containerRef}
     >
       <div
-        className={cn("space-y-6 p-6", !width && "invisible")}
+        className={cn(!width && "invisible")}
         style={{
           zoom: (1 / 794) * width,
         }}
         ref={contentRef}
         id="resumePreviewContent"
       >
-        <PersonalInfoHeader resumeData={resumeData} />
-        <SummarySection resumeData={resumeData} />
-        <WorkExperienceSection resumeData={resumeData} />
-        <EducationSection resumeData={resumeData} />
-        <SkillsSection resumeData={resumeData} />
+        <SelectedTemplate resumeData={resumeData} />
       </div>
     </div>
   );
