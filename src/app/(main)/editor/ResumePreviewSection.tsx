@@ -1,5 +1,4 @@
-import ResumePreview from "@/components/ResumePreview";
-import { cn } from "@/lib/utils";
+import ResumePreview from "@/components/ResumePreview";import { cn } from "@/lib/utils";
 import { ResumeValues } from "@/lib/validation";
 import BorderStyleButton from "./BorderStyleButton";
 import ColorPicker from "./ColorPicker";

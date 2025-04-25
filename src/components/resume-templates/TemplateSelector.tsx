@@ -4,18 +4,17 @@ import { ResumeValues } from "@/lib/validation";
 import { Monitor, Smartphone, Tablet } from "lucide-react";
 import { useState } from "react";
 import ResumePreview from "../ResumePreview";
-
-export type TemplateStyle = "modern" | "classic" | "creative" | "minimal" | "professional";
+import { TemplateStyle } from "./types";
 
 interface TemplateSelectorProps {
   resumeData: ResumeValues;
-  selectedTemplate: TemplateStyle;
+  selectedTemplate?: TemplateStyle;
   onTemplateChange: (template: TemplateStyle) => void;
 }
 
 export default function TemplateSelector({
   resumeData,
-  selectedTemplate,
+  selectedTemplate = "modern",
   onTemplateChange,
 }: TemplateSelectorProps) {
   const [deviceSize, setDeviceSize] = useState<"desktop" | "tablet" | "mobile">("desktop");

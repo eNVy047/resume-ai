@@ -10,6 +10,8 @@ import { TemplateStyle } from "./resume-templates/types";
 import ModernTemplate from "./resume-templates/ModernTemplate";
 import ClassicTemplate from "./resume-templates/ClassicTemplate";
 import CreativeTemplate from "./resume-templates/CreativeTemplate";
+import MinimalistTemplate from "./resume-templates/MinimalistTemplate";
+import ProfessionalTemplate from "./resume-templates/ProfessionalTemplate";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -31,6 +33,8 @@ export default function ResumePreview({
     modern: ModernTemplate,
     classic: ClassicTemplate,
     creative: CreativeTemplate,
+    minimal: MinimalistTemplate,
+    professional: ProfessionalTemplate,
   };
 
   const SelectedTemplate = templates[template];

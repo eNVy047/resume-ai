@@ -1,6 +1,6 @@
 import { ResumeValues } from "@/lib/validation";
 
-export type TemplateStyle = 'modern' | 'classic' | 'creative';
+export type TemplateStyle = 'modern' | 'classic' | 'creative' | 'minimal' | 'professional';
 
 export interface TemplateProps {
   resumeData: ResumeValues;
